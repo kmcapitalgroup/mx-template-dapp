@@ -1,9 +1,7 @@
 export const ServiceCosts = {
   features: {
-    nftAnalysis: 150,     // 150 XTW - Analyse de base
-    rarityCheck: 200,     // 200 XTW - Vérification de rareté détaillée
-    pricePredictor: 250,  // 250 XTW - Prédiction de prix avancée
-    marketInsights: 300   // 300 XTW - Analyse de marché complète
+    rarityCheck: 200,
+    pricePredict: 300
   }
 } as const;
 

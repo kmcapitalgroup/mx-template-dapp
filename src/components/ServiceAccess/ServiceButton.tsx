@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useServiceAccess } from '../../hooks/useServiceAccess';
+import { useXoxnoPurchase } from '../../hooks/useXoxnoPurchase';
 import { ServiceCosts } from '../../constants/serviceCosts';
 
 interface ServiceButtonProps {
@@ -9,6 +10,7 @@ interface ServiceButtonProps {
 
 const ServiceButton: React.FC<ServiceButtonProps> = ({ serviceType, onSuccess }) => {
   const { checkServiceAccess, executeService, isProcessing } = useServiceAccess(serviceType);
+  const { redirectToXoxno, redirectToXExchange, priceInEgld } = useXoxnoPurchase();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -32,7 +34,12 @@ const ServiceButton: React.FC<ServiceButtonProps> = ({ serviceType, onSuccess })
   };
 
   const handleGetPass = () => {
-    // TODO: Implement navigation to pass purchase page
+    redirectToXoxno();
+    setShowPaymentModal(false);
+  };
+
+  const handleGetXTW = () => {
+    redirectToXExchange();
     setShowPaymentModal(false);
   };
 
@@ -76,27 +83,29 @@ const ServiceButton: React.FC<ServiceButtonProps> = ({ serviceType, onSuccess })
             <div className="space-y-4">
               <div className="p-4 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg">
                 <h4 className="font-semibold mb-2">💎 Get TIKAWULTRA Pass</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-300">
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
                   Unlock unlimited lifetime access to all features! No more per-analysis payments required.
                 </p>
                 <button
                   onClick={handleGetPass}
-                  className="mt-4 w-full py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition-colors"
+                  className="w-full py-2 px-4 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition-colors flex justify-between items-center"
                 >
-                  Get TIKAWULTRA Pass
+                  <span>Buy TIKAWULTRA Pass</span>
+                  <span className="font-mono">{priceInEgld?.toFixed(2) || '0.50'} EGLD</span>
                 </button>
               </div>
 
               <div className="p-4 bg-gray-50 dark:bg-gray-700/30 rounded-lg">
-                <h4 className="font-semibold mb-2">🪙 Pay with XTW</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-300">
-                  Pay {ServiceCosts.features[serviceType]} XTW for this analysis
+                <h4 className="font-semibold mb-2">🪙 Get XTW Tokens</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                  Need {ServiceCosts.features[serviceType]} XTW for this analysis? Swap EGLD for XTW tokens on xExchange.
                 </p>
                 <button
-                  onClick={() => setShowPaymentModal(false)}
-                  className="mt-4 w-full py-2 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                  onClick={handleGetXTW}
+                  className="w-full py-2 px-4 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex justify-between items-center"
                 >
-                  Get XTW Tokens
+                  <span>Swap on xExchange</span>
+                  <span className="text-sm text-gray-600">EGLD → XTW</span>
                 </button>
               </div>
             </div>
