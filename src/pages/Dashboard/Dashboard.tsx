@@ -4,8 +4,8 @@ import { Account } from './widgets';
 import { useScrollToElement } from 'hooks';
 import { Widget } from './components';
 import { WidgetType } from 'types/widget.types';
-import { NftRarityAnalyzer } from 'components/NftAnalytics/NftRarityAnalyzer';
 import { NftPricePredictor } from 'components/NftAnalytics/NftPricePredictor';
+import { NftRarityAnalyzer } from 'components/NftAnalytics/NftRarityAnalyzer';
 import '../../styles/common.css';
 
 const WIDGETS: WidgetType[] = [
